@@ -29,13 +29,6 @@ export async function generatePDF(data: any): Promise<string> {
     ? new Date(data._submission_time).toLocaleDateString()
     : new Date().toLocaleDateString();
 
-  const useMock = process.env.MOCK_KOBO_DATA === "true" || process.env.MOCK_KOBO_DATA === undefined;
-  const mockBanner = useMock 
-    ? `<div style="background-color: #fef2f2; color: #b91c1c; padding: 15px; text-align: center; font-weight: bold; margin-bottom: 25px; border-radius: 8px; border: 2px dashed #b91c1c; text-transform: uppercase; letter-spacing: 1px;">
-         TESTING MODE: This document contains simulated mock data and was not issued to a real participant.
-       </div>` 
-    : "";
-
   const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -105,7 +98,6 @@ export async function generatePDF(data: any): Promise<string> {
       </style>
     </head>
     <body>
-      ${mockBanner}
       <div class="header">
         <img src="https://satorufoundation.org/logo.png" alt="Satoru Foundation" />
         <h1>Participant Submission</h1>

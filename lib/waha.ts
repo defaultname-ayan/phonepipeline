@@ -1,27 +1,6 @@
-import fs from "fs";
-import path from "path";
-
 const WAHA_URL = process.env.WAHA_URL;
-const useMock = process.env.MOCK_KOBO_DATA === "true" || process.env.MOCK_KOBO_DATA === undefined;
 
 export async function sendPdfViaWaha(phone: string, base64Pdf: string, filename: string = "submission.pdf") {
-  if (useMock) {
-    console.log(`[MOCK] Simulating WAHA send to ${phone}...`);
-    
-    // Save to public folder so the user can easily view it during the showcase
-    const publicDir = path.join(process.cwd(), "public");
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
-    }
-    const publicPath = path.join(publicDir, "mock-submission.pdf");
-    fs.writeFileSync(publicPath, Buffer.from(base64Pdf, "base64"));
-    
-    console.log(`[MOCK] Success! Saved mock PDF to: ${publicPath}`);
-    console.log(`[MOCK] View it here: http://localhost:3000/mock-submission.pdf`);
-    
-    return { success: true, mock: true, url: "/mock-submission.pdf" };
-  }
-
   if (!WAHA_URL) {
     throw new Error("Missing WAHA configuration");
   }
